@@ -6,11 +6,21 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'json'
-require 'rest-client'
+# require 'rest-client'
+require 'open-uri'
 
-response = RestClient.get('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
-repos = JSON.parse(response)
+# response = RestClient.get('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
+# repos = JSON.parse(response)
 
-repos['drinks'].each do |drink|
-  Ingredient.create(name: drink['strIngredient1'])
+puts 'Cleansing Datebase...'
+Ingredient.destroy_all
+
+url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'
+ingredients = open(url).read
+ingredient = JSON.parse(ingredients)
+
+ingredient['drinks'].each do |drink|
+  i = Ingredient.create(name: drink['strIngredient1'])
+  puts "create#{i.name}"
 end
+puts "finished"

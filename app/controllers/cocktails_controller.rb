@@ -6,6 +6,8 @@ class CocktailsController < ApplicationController
   end
 
   def show
+    @doses = Dose.where(cocktail: @cocktail)
+    @dose = Dose.new
   end
 
   def new
@@ -26,7 +28,7 @@ class CocktailsController < ApplicationController
   end
 
   def update
-    @cocktail.update(strong_coctail_params)
+    @cocktail.update(cocktail_params)
 
     redirect_to cocktail_path(@cocktail)
   end
@@ -34,7 +36,7 @@ class CocktailsController < ApplicationController
   def destroy
     @cocktail.destroy
 
-    redirect_to coctails_path
+    redirect_to cocktails_path
   end
 
   private

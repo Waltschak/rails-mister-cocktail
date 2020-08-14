@@ -1,10 +1,21 @@
+<div class="container">
 <p>
   <strong>Cocktail name:</strong>
   <%= @cocktail.name %>
 </p>
 
+<h3>Add new dose for <%= @cocktail.name %></h3>
+<%= render 'doses/new', cocktail: @cocktail, dose: @dose %>
+
+<% @cocktail.doses.each do |dose| %>
+<%= dose.description %>
+<%= dose.ingredient.name %>
+<%= link_to 'x', dose_path(dose), method: :delete, data: { confirm: "Are you sure you want to delete?"}   %>
+
+<% end %>
 
 <%= link_to 'Back to all cocktails', cocktails_path  %>
 <%= link_to "Update this cocktail", "/cocktails/#{@cocktail.id}/edit"  %>
 <%= link_to 'Delete cocktail', "/cocktails/#{@cocktail.id}", method: :delete, data: { confirm: "Are you sure you want to delete?"}   %>
 
+</div>
